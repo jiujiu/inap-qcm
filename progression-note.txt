@@ -1,0 +1,1 @@
+Historique des résultats géré côté navigateur via localStorage. Le tableau de progression est intégré à la page d'accueil. Export/import JSON disponible pour transférer l'historique entre ordinateurs.

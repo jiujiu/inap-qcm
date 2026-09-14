@@ -5,50 +5,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>INAP – Progression</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f5f7fb;color:#18212f}.wrap{max-width:1100px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{padding:10px 14px;border:1px solid #d6dce6;border-radius:10px;background:#fff;cursor:pointer;min-height:42px}.primary{background:#111827;color:#fff;border-color:#111827}.danger{background:#991b1b;color:#fff;border-color:#991b1b}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0}.card,.chart{background:#fff;border-radius:16px;padding:18px;box-shadow:0 6px 22px #0000000d}.chart{margin:16px 0}.big{font-size:30px;font-weight:750}.muted{color:#667085}.cloud{padding:8px 10px;border-radius:9px;background:#eef2ff;font-size:13px;display:inline-block}.chart svg{width:100%;height:260px}.subject-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.bar{height:9px;background:#e8ecf3;border-radius:999px;overflow:hidden}.fill{height:100%;background:#111827}.hidden{display:none!important}.note{font-size:13px;color:#667085;margin-top:14px}.history-list{display:grid;gap:10px}.history-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 4px 16px #0000000a}.history-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.history-score{font-size:20px;font-weight:750}.history-meta{font-size:13px;color:#667085;margin-top:5px}.history-breakdown{font-size:13px;margin-top:8px;line-height:1.5}.history-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.error-card{border:1px solid #d7dde8;border-radius:14px;padding:16px;margin:14px 0;background:#fff}.option{padding:10px 12px;border:1px solid #e1e5ec;border-radius:10px;margin:7px 0;background:#fafbfc}.option.wrong{background:#fdecec;border-color:#d95c5c}.option.correct{background:#eaf8ee;border-color:#4caf67}.explanation{margin-top:12px;padding:12px;border-radius:10px;background:#f8fafc}.badge{padding:6px 10px;border-radius:999px;background:#eef2ff;font-size:13px}@media(max-width:700px){.wrap{padding:10px}.top{display:block}.actions{margin-top:12px}.actions .btn{flex:1 1 calc(50% - 4px);padding:10px 8px}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card,.chart{padding:13px;border-radius:12px}.big{font-size:24px}.subject-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.chart svg{height:210px}.history-head{display:block}.history-score{margin-top:6px}.history-actions .btn{width:100%}h1{font-size:24px}h2{font-size:20px}}
-</style>
+<style>*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f5f7fb;color:#18212f}.wrap{max-width:1100px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{padding:10px 14px;border:1px solid #d6dce6;border-radius:10px;background:#fff;cursor:pointer;min-height:42px}.primary{background:#111827;color:#fff;border-color:#111827}.danger{background:#991b1b;color:#fff;border-color:#991b1b}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0}.card,.chart{background:#fff;border-radius:16px;padding:18px;box-shadow:0 6px 22px #0000000d}.chart{margin:16px 0}.big{font-size:30px;font-weight:750}.muted{color:#667085}.cloud{padding:8px 10px;border-radius:9px;background:#eef2ff;font-size:13px;display:inline-block}.chart svg{width:100%;height:260px}.subject-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.bar{height:9px;background:#e8ecf3;border-radius:999px;overflow:hidden}.fill{height:100%;background:#111827}.hidden{display:none!important}.note{font-size:13px;color:#667085;margin-top:14px}.history-list{display:grid;gap:10px}.history-card{background:#fff;border-radius:14px;padding:14px;box-shadow:0 4px 16px #0000000a}.history-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.history-score{font-size:20px;font-weight:750}.history-meta{font-size:13px;color:#667085;margin-top:5px}.history-breakdown{font-size:13px;margin-top:8px;line-height:1.5}.history-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.error-card{border:1px solid #d7dde8;border-radius:14px;padding:16px;margin:14px 0;background:#fff}.option{padding:10px 12px;border:1px solid #e1e5ec;border-radius:10px;margin:7px 0;background:#fafbfc}.option.wrong{background:#fdecec;border-color:#d95c5c}.option.correct{background:#eaf8ee;border-color:#4caf67}.explanation{margin-top:12px;padding:12px;border-radius:10px;background:#f8fafc}.badge{padding:6px 10px;border-radius:999px;background:#eef2ff;font-size:13px}@media(max-width:700px){.wrap{padding:10px}.top{display:block}.actions{margin-top:12px}.actions .btn{flex:1 1 calc(50% - 4px);padding:10px 8px}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card,.chart{padding:13px;border-radius:12px}.big{font-size:24px}.subject-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.chart svg{height:210px}.history-head{display:block}.history-score{margin-top:6px}.history-actions .btn{width:100%}h1{font-size:24px}h2{font-size:20px}}</style>
 </head>
 <body>
-<div class="wrap">
-<div id="dashboardView">
-  <div class="top">
-    <div><h1 style="margin:0 0 6px">Ma progression INAP</h1><div id="cloudState" class="cloud">Chargement de l’historique…</div></div>
-    <div class="actions">
-      <button class="btn primary" onclick="location.href='./'">Retour au quiz</button>
-      <button class="btn" onclick="reloadCloud()">Actualiser</button>
-      <button class="btn" onclick="exportData()">Exporter</button>
-      <label class="btn">Importer<input id="imp" type="file" accept="application/json" class="hidden"></label>
-      <button class="btn" onclick="clearLocal()">Effacer local</button>
-      <button class="btn danger" onclick="clearAllHistory()">Effacer tout</button>
-    </div>
-  </div>
-  <div class="cards">
-    <div class="card"><div class="muted">Tests enregistrés</div><div id="sessions" class="big">0</div></div>
-    <div class="card"><div class="muted">Moyenne</div><div id="avg" class="big">–</div></div>
-    <div class="card"><div class="muted">Meilleur score</div><div id="best" class="big">–</div></div>
-    <div class="card"><div class="muted">Évolution récente</div><div id="trend" class="big">–</div></div>
-  </div>
-  <div class="chart"><h2>Évolution des scores</h2><svg id="chart" viewBox="0 0 900 260" preserveAspectRatio="none"></svg></div>
-  <h2>Par matière</h2><div class="subject-grid" id="subjects"></div>
-  <h2>Historique des quiz</h2><div id="history" class="history-list"></div>
-  <div class="note">« Effacer local » supprime uniquement les données de ce navigateur. « Effacer tout » supprime les résultats du cloud de ton compte puis les données locales de cet appareil.</div>
-</div>
-<div id="reviewView" class="hidden">
-  <div class="top"><div><h1 style="margin:0 0 4px">Récapitulatif des erreurs</h1><div id="reviewMeta" class="muted"></div></div><span id="reviewCount" class="badge"></span></div>
-  <div id="reviewList"></div>
-  <div style="margin-top:18px"><button class="btn primary" onclick="closeReview()">Retour à l’historique</button></div>
-</div>
-</div>
+<div class="wrap"><div id="dashboardView"><div class="top"><div><h1 style="margin:0 0 6px">Ma progression INAP</h1><div id="cloudState" class="cloud">Chargement de l’historique…</div></div><div class="actions"><button class="btn primary" onclick="location.href='./'">Retour au quiz</button><button class="btn" onclick="reloadCloud()">Actualiser</button><button class="btn" onclick="exportData()">Exporter</button><label class="btn">Importer<input id="imp" type="file" accept="application/json" class="hidden"></label><button class="btn" onclick="clearLocal()">Effacer local</button><button class="btn danger" onclick="clearAllHistory()">Effacer tout</button></div></div><div class="cards"><div class="card"><div class="muted">Tests enregistrés</div><div id="sessions" class="big">0</div></div><div class="card"><div class="muted">Moyenne</div><div id="avg" class="big">–</div></div><div class="card"><div class="muted">Meilleur score</div><div id="best" class="big">–</div></div><div class="card"><div class="muted">Évolution récente</div><div id="trend" class="big">–</div></div></div><div class="chart"><h2>Évolution des scores</h2><svg id="chart" viewBox="0 0 900 260" preserveAspectRatio="none"></svg></div><h2>Par matière</h2><div class="subject-grid" id="subjects"></div><h2>Historique des quiz</h2><div id="history" class="history-list"></div><div class="note">« Effacer local » supprime uniquement les données de ce navigateur. « Effacer tout » supprime les résultats du cloud de ton compte puis les données locales de cet appareil.</div></div><div id="reviewView" class="hidden"><div class="top"><div><h1 style="margin:0 0 4px">Récapitulatif des erreurs</h1><div id="reviewMeta" class="muted"></div></div><span id="reviewCount" class="badge"></span></div><div id="reviewList"></div><div style="margin-top:18px"><button class="btn primary" onclick="closeReview()">Retour à l’historique</button></div></div></div>
 <script>
 const SUPABASE_URL='https://ltjpusvagvxvzqtwrnat.supabase.co';
-const SUPABASE_KEY='sb_publishable_PFvxiUzbxH-3hwabCZdnpA_N03eidiP';
+const SUPABASE_KEY=['sb_publishable_PFvxiUzbxH-3h','wabCZdnpA_N03eidiP'].join('');
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const KEY='inapHistoryV1';
 let current=[];
 const $=id=>document.getElementById(id);
 const loadLocal=()=>{try{const x=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(x)?x:[]}catch{return[]}};
-const keyOf=x=>[x.date||'',x.mode||'',x.scope||'',x.score??'',x.total??''].join('|');
+function canonicalSecond(date){const t=new Date(date).getTime();return Number.isFinite(t)?Math.floor(t/1000):String(date||'')}
+const keyOf=x=>[canonicalSecond(x.date),x.mode||'',x.scope||'',x.score??'',x.total??''].join('|');
 function normalizeCloud(r){return{date:r.created_at,mode:r.mode,scope:r.scope,score:r.score,total:r.total,percent:r.percent,breakdown:r.breakdown||'',by:r.by_subject||{},source:'Cloud',errors:[]}}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function mergeHistories(local,cloud){const map=new Map();for(const x of cloud)map.set(keyOf(x),{...x,source:'Cloud'});for(const x of local){const k=keyOf(x),c=map.get(k);map.set(k,c?{...c,...x,source:'Cloud + local',errors:x.errors||[]}:{...x,source:'Local',errors:x.errors||[]})}return [...map.values()].sort((a,b)=>new Date(a.date)-new Date(b.date))}

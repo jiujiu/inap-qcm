@@ -11,6 +11,7 @@
 <div class="filters"><button class="active" data-filter="ALL">Toutes</button><button data-filter="PGP">PGP</button><button data-filter="DOAP">DOAP</button><button data-filter="CGE">CGE</button><button data-filter="CCC">CCC</button></div>
 <div id="content"></div>
 </div><script>
+const summary=document.getElementById('summary'),content=document.getElementById('content');
 const U='https://ltjpusvagvxvzqtwrnat.supabase.co',K='sb_publishable_PFvxiUzbxH-3hwabCZdnpA_N03eidiP',sb=supabase.createClient(U,K),subjects=['PGP','DOAP','CGE','CCC'];let all=[];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function load(){const {data:{user}}=await sb.auth.getUser();if(!user)return location.replace('./');const {data:allowed}=await sb.rpc('is_allowed_user');if(allowed!==true)return location.replace('./');const {data,error}=await sb.from('inap_errors').select('*').order('session_date',{ascending:false});if(error){content.innerHTML='<section class="section">Accès refusé.</section>';return}all=(data||[]).map(e=>({...e,sessionDate:e.session_date,correct:e.correct_answer}));render()}

@@ -1,6 +1,6 @@
 # INAP QCM
 
-Quiz d'entraînement au tronc commun INAP : PGP, DOAP, CGE et CCC.
+Plateforme privée de révision dédiée à quatre matières : PGP, DOAP, CGE et CCC.
 
 ## Site déployé
 
@@ -8,19 +8,25 @@ Quiz d'entraînement au tronc commun INAP : PGP, DOAP, CGE et CCC.
 
 > Utiliser l'URL racine ci-dessus afin de conserver l'interface complète avec connexion Supabase, sauvegarde cloud et accès à la progression.
 
-## Banque de questions
+## Sécurité
 
-La banque contient désormais **1 015 QCM** :
+- authentification Supabase obligatoire par lien magique ;
+- liste blanche d'adresses e-mail dans `allowed_users` ;
+- les banques de questions sont stockées dans `quiz_questions` et protégées par RLS ;
+- aucun fichier JSON de questions n'est publié par GitHub Pages ;
+- `quiz.html`, `dashboard.html` et `erreurs.html` vérifient une session authentifiée et autorisée ;
+- progression et erreurs sont stockées dans Supabase et ne sont lisibles que par leur propriétaire autorisé ;
+- la clé `sb_publishable_...` est volontairement publique : elle identifie le projet mais ne contourne pas Auth/RLS ;
+- aucune clé `service_role` ou `sb_secret` n'est présente dans le navigateur.
 
-- **PGP : 234**, dont **34 questions réelles**
-- **DOAP : 270**, dont **70 questions réelles**
-- **CGE : 271**, dont **71 questions réelles**
-- **CCC : 240**, dont **40 questions réelles**
+## Fonctionnalités
 
-Les contenus sont construits à partir des synthèses Word corrigées, des supports PDF fournis et des questionnaires réels fournis pour les quatre matières.
+- entraînement matière par matière avec correction immédiate ;
+- progression cloud ;
+- historique des erreurs ;
 
-Chaque test par matière sélectionne aléatoirement **20 questions**. Le test complet utilise **80 QCM : 20 PGP, 20 DOAP, 20 CGE et 20 CCC**.
+## Autoriser un autre utilisateur
 
-Le site propose un mode entraînement avec correction immédiate, le suivi de progression, un **historique des erreurs** permettant de revoir ultérieurement les questions ratées, ainsi qu'un **mode examen de 2 heures**, avec **30 minutes par matière**, chronomètre par question et possibilité de modifier les réponses avant l'envoi final.
+Ajouter son adresse e-mail dans la table `public.allowed_users`. Une authentification Supabase valide seule ne suffit pas : l'adresse doit aussi être autorisée.
 
-L'interface principale conserve également la **connexion Supabase par lien magique**, la **sauvegarde cloud des résultats** et le **tableau de bord de progression synchronisé** lorsque l'utilisateur est connecté.
+Les politiques RLS contrôlent ensuite l'accès à `quiz_questions`, `quiz_results` et `quiz_errors`.

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>INAP QCM</title>
-<script>if(window.top===window.self){location.replace('./')}</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>if(window.top===window.self){location.replace('./')}</script>
 <style>
 *{box-sizing:border-box}
 body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f5f7fb;margin:0;color:#18212f}
@@ -107,12 +107,13 @@ table{min-width:680px}
 </div></div>
 <script>
 let Q=[];
+const SUPABASE_URL='https://ltjpusvagvxvzqtwrnat.supabase.co',SUPABASE_KEY='sb_publishable_PFvxiUzbxH-3hwabCZdnpA_N03eidiP',sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);let currentUser=null;
 const RESULT_KEY='inapHistoryV1';
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function makeQuestion(subject,concept,question,answers,correctText,explanation,source='support'){const a=shuffle(answers);return[subject,question,a,a.indexOf(correctText),explanation,concept,source]}
 function expandBank(bank){const subject=bank.subject,facts=bank.facts,byCat={};facts.forEach((f,i)=>(byCat[f[0]]??=[]).push([i,...f]));const out=[];facts.forEach((f,i)=>{const[cat,term,desc]=f;let peers=(byCat[cat]||[]).filter(x=>x[0]!==i);if(peers.length<3)peers=facts.map((x,j)=>[j,...x]).filter(x=>x[0]!==i);const chosen=shuffle(peers).slice(0,3),otherTerms=chosen.map(x=>x[2]),otherDesc=chosen.map(x=>x[3]),concept=`${subject}-${String(i+1).padStart(3,'0')}`,explanation=`${term} : ${desc}.`;out.push(makeQuestion(subject,concept,`Quelle affirmation décrit correctement « ${term} » ?`,[desc,...otherDesc],desc,explanation));out.push(makeQuestion(subject,concept,`Quel élément du support correspond à la définition suivante : « ${desc} » ?`,[term,...otherTerms],term,explanation));out.push(makeQuestion(subject,concept,`Dans le support, à quoi correspond « ${term} » ?`,[desc,...otherDesc],desc,explanation));out.push(makeQuestion(subject,concept,`Complétez correctement la notion « ${term} » :`,[desc,...otherDesc],desc,explanation))});return out}
 function expandExactBank(bank){return (bank.questions||[]).map((q,i)=>makeQuestion(bank.subject,`${bank.subject}-REAL-${String(q.id??i+1).padStart(3,'0')}`,q.question,q.answers,q.correct,`Question issue du questionnaire ${bank.subject} fourni.${q.note?' '+q.note:''}`,`${bank.subject} réel`))}
-async function loadQuestions(){const files=['questions-pgp.json','questions-doap.json','questions-cge.json','questions-ccc.json'];const banks=await Promise.all(files.map(f=>fetch(f,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(f);return r.json()})));const exactFiles=['questions-pgp-real.json','questions-doap-real.json','questions-cge-real.json','questions-ccc-real.json'];const exactBanks=await Promise.all(exactFiles.map(f=>fetch(f,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(f);return r.json()})));Q=banks.flatMap(expandBank).concat(exactBanks.flatMap(expandExactBank));if(Q.length!==1015)throw new Error(`Banque incomplète : ${Q.length}/1015`)}
+async function loadQuestions(){const {data:{user}}=await sb.auth.getUser();if(!user){location.replace('./');return}const {data:allowed}=await sb.rpc('is_allowed_user');if(allowed!==true){location.replace('./');return}currentUser=user;const {data,error}=await sb.from('inap_banks').select('bank_key,payload');if(error)throw error;const m=Object.fromEntries((data||[]).map(x=>[x.bank_key,x.payload]));const files=['questions-pgp.json','questions-doap.json','questions-cge.json','questions-ccc.json'],exactFiles=['questions-pgp-real.json','questions-doap-real.json','questions-cge-real.json','questions-ccc-real.json'];const banks=files.map(f=>m[f]),exactBanks=exactFiles.map(f=>m[f]);if(banks.some(x=>!x)||exactBanks.some(x=>!x))throw new Error('Banque Supabase incomplète');Q=banks.flatMap(expandBank).concat(exactBanks.flatMap(expandExactBank));const examBanks=m['questions-examen-2026-09-17.json']||[];Q=Q.concat(examBanks.flatMap(bank=>(bank.questions||[]).map((q,i)=>makeQuestion(bank.subject,bank.subject+'-EXAM20260917-'+String(q.id??i+1).padStart(3,'0'),q.question,q.answers,q.correct,'Question réellement posée le 17/09/2026, reconstituée de mémoire.'+(q.note?' '+q.note:''),'Examen réel 17/09/2026'))));if(Q.length!==1034)throw new Error(`Banque incomplète : ${Q.length}/1034`)}
 
 function loadSessions(){try{const x=JSON.parse(localStorage.getItem(RESULT_KEY)||'[]');return Array.isArray(x)?x:[]}catch{return[]}}
 function saveSessions(x){localStorage.setItem(RESULT_KEY,JSON.stringify(x))}
